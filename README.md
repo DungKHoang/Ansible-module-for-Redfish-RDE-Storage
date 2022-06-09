@@ -12,4 +12,4 @@ Ansible module to manage RDE storage with iLO RedFish
 
  - Target servers: 
    - iLO firmware > 2.65
-   - [PLDM RDE] (https://developer.hpe.com/blog/overview-of-the-platform-level-data-model-for-redfish%C2%AE-device-enablement-standard/) Storage controllers(SR, MR, NS controllers) firmware: 5.00  
+   - [PLDM RDE](https://developer.hpe.com/blog/overview-of-the-platform-level-data-model-for-redfish%C2%AE-device-enablement-standard/) Storage controllers(SR, MR, NS controllers) firmware: 5.00  
