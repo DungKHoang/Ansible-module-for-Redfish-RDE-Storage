@@ -1,0 +1,95 @@
+---
+- hosts: localhost
+
+  vars:
+    username:   "admin"
+    password:   "some_password" 
+    baseuri:    "some_ip"
+    datatype:   "SystemAll"
+    
+
+  tasks:
+
+            
+
+    # -------------------- iLO queries start here
+
+    - name: Create session on {{ baseuri }}
+      community.general.redfish_command:
+            category:   Sessions
+            command:    CreateSession
+            baseuri:    "{{ baseuri }}"
+            username:   "{{ username }}"
+            password:   "{{ password }}"
+      register: result
+
+
+    # ----------------Controller inventory
+    - name: Get controller Inventory on {{ baseuri }}
+      ilo_storage_info:
+            category:   Controller
+            command:    GetStorageController
+            baseuri:    "{{ baseuri }}"
+            auth_token: "{{ result.session.token }}"
+      register: result_cont
+
+    - name: Set count
+      set_fact:
+          controller_count:     "{{  result_cont.redfish_facts.controller.count }}"
+
+    - name: Set endpoint
+      set_fact:
+          controller_entries:   "{{ result_cont.redfish_facts.controller.entries }}"
+
+
+    - name: Print dataset
+      debug:
+        msg: "{{ result_cont }}"
+
+
+    # ----------------Physical disk inventory
+    - name: Get physical disk Inventory on {{ baseuri }}
+      ilo_storage_info:
+            category:   Disk
+            command:    GetPhysicalDisk
+            baseuri:    "{{ baseuri }}"
+            auth_token: "{{ result.session.token }}"
+      register: result_pdisk
+
+    - name: Set count
+      set_fact:
+          pdisk_count:      "{{  result_pdisk.redfish_facts.physical_disk.count }}"
+
+    - name: Set endpoint
+      set_fact:
+          pdisk_entries:    "{{ result_pdisk.redfish_facts.physical_disk.entries }}"
+
+    - name: Print dataset
+      debug:
+        msg: "{{ result_pdisk }}"
+
+
+
+    # ----------------Logical disk inventory
+    - name: Get logical disk Inventory on {{ baseuri }}
+      ilo_storage_info:
+            category:   Disk
+            command:    GetLogicalDisk
+            baseuri:    "{{ baseuri }}"
+            auth_token: "{{ result.session.token }}"
+      register: result_ldisk
+
+    - name: Set count
+      set_fact:
+          ldisk_count:      "{{  result_ldisk.redfish_facts.logical_disk.count }}"
+
+    - name: Set endpoint
+      set_fact:
+          ldisk_entries:    "{{ result_ldisk.redfish_facts.logical_disk.entries }}"
+
+
+
+    - name: Print dataset
+      debug:
+        msg: "{{ result_ldisk }}"
+
