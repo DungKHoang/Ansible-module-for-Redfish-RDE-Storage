@@ -23,10 +23,11 @@ Ansible module to manage RDE storage with iLO RedFish
   - **get-storage.yml**: Ansible playbook
 
 ## Settings
+  - Copy **ilo_storage_info.py** to ANSIBLE_LIBRARY
   - Configure ANSIBLE environment variables
   ```bash
 $ export ANSIBLE_LIBRARY=/path/to/ilo_redfish_ansible_collection/plugins/modules
 $ export ANSIBLE_MODULE_UTILS=/path/to/ilo_redfish_ansible_collection/plugins/module_utils
 
-  - Copy **ilo_storage_info.py** to ANSIBLE_LIBRARY
+
 
